@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<style>
+.card-book{
+    margin-right:580px;
+    width: 400px;
+    margin-top:40px;
+}
+</style>
+
+<!--بداية الكتاب --> 
+    <div id="" class="col-md-4 card-book">
+        <!-- Widget: user widget style 1 -->
+      <div id="" class="card card-widget widget-user ">
+        <!-- Add the bg color to the header using any of the bg-* classes -->
+      <!-- قائمة منسدلة -->
+      <div style="position: absolute;" class="btn-group">   
+        <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+        {% if book.status == 'availbel' %}
+          {% if book.pdf_file %}
+            <a class="dropdown-item" href="{% url 'read' book.id %}">قراءة</a>
+          {% endif %}
+        {% endif %}
+          <a class="dropdown-item" href="{% url 'update' book.id %}">تعديل</a>
+          <a class="dropdown-item" href="{% url 'delete' book.id %}">حذف</a>
+          <a class="dropdown-item" href="{% url 'book' book.id %}">المزيد</a>
+      <!-- Button trigger modal -->
+        </div>
+      </div>
+      {% if book.photo_book %}
+        <div style="background: url({{book.photo_book.url}}); background-size: cover;" class="widget-user-header bg-info">
+      {% else %}
+        <div class="widget-user-header bg-info">
+      {% endif %}
+        <h3 class="widget-user-username">{{book.title}}</h3>
+        <h5 class="widget-user-desc">{{book.author}}</h5>
+      </div>
+      <div class="widget-user-image">
+      {% if book.photo_author %}
+        <img style="width:100px; height: 100px;" class="img-circle elevation-2" src="{{book.photo_author.url}}" alt="User Avatar">
+      {% endif %}
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="col-sm-4 border-right">
+            <div class="description-block">
+              <h5 class="description-header">{{book.pages}}</h5>
+              <span class="description-text">صفحة</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+              <!-- /.col -->
+          <div class="col-sm-4 border-right">
+            <div class="description-block">
+            {% if book.price %}
+              <h5 class="description-header">${{book.price}}</h5>
+              <span class="description-text">السعر</span>
+              {% elif book.retal_price_day %}
+              <h5 class="description-header">${{book.retal_price_day}}</h5>
+              <span class="description-text">في اليوم</span>
+            {% endif %}                     
+            </div>
+            <!-- /.description-block -->
+          </div>
+              <!-- /.col -->
+          <div class="col-sm-4">
+            <div class="description-block">
+            {% if book.status == "availbel" %}
+              <h5 class="description-header text-success">متاح</h5>
+              <span class="description-text">الحالة</span>
+            {% elif book.status == "rental" %}
+              <h5 class="description-header text-warning">تم استعارته</h5>
+              <span class="description-text">الحالة</span>
+            
+            {% else %}
+              <h5 class="description-header text-danger">تم بيعه</h5>
+              <span class="description-text">الحالة</span>
+            {% endif %}
+            </div>
+            <!-- /.description-block -->
+          </div>
+              <!-- /.col -->
+        </div>
+            <!-- /.row -->
+      </div>
+      </div>
+        <!-- /.widget-user -->
+    </div>
+<!-- نهاية الكتاب -->
+{% comment %} <div class = 'book'>
+  <embed src="{{book.pdf_file.url}}">
+</div> {% endcomment %}
+          
+
+{% endblock content %}
+
+
+
+
+
+
+
